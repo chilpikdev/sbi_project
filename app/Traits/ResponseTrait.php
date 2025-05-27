@@ -2,42 +2,43 @@
 
 namespace App\Traits;
 
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Illuminate\Http\JsonResponse;
 
 trait ResponseTrait
 {
     /**
      * Summary of toResponse
-     * @param mixed $code
+     * @param int $code
      * @param mixed $message
-     * @param array|object|null $data
-     * @param mixed $ttl
-     * @param mixed $headers
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @param object|array|null $data
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function toResponse(?int $code = 200, ?string $message = null, array|object|null $data = null, ?array $headers = null, ?array $meta = null): JsonResponse
+    public static function toResponse(int $code = 200, ?string $message = null, object|array|null $data = null, ?array $meta = null): JsonResponse
     {
-        $response = [
+        $responseData = [
             'status' => $code,
-            'message' => $message ?? null
+            'message' => $message,
         ];
 
-        if ($message === null) {
-            unset($response['message']);
+        if ($data) {
+            $responseData['data'] = $data;
         }
 
-        if (!is_null($data)) {
-            $response['data'] = $data;
+        if ($meta) {
+            $responseData['meta'] = $meta;
         }
 
-        if (!is_null($meta)) {
-            $response['meta'] = $meta;
+        if (is_object($data) && property_exists($data, 'resource')) {
+            if ($data->resource instanceof \Illuminate\Pagination\Paginator || $data->resource instanceof \Illuminate\Pagination\LengthAwarePaginator) {
+                $responseData['meta'] = [
+                    'current_page' => $data->currentPage(),
+                    'last_page' => $data->lastPage(),
+                    'per_page' => $data->perPage(),
+                    'total' => $data->total(),
+                ];
+            }
         }
 
-        return response()->json(
-            data: $response,
-            status: $code,
-            headers: $headers ?? []
-        );
+        return response()->json($responseData, $code);
     }
 }
