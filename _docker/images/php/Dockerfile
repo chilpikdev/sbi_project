@@ -38,7 +38,7 @@ RUN mkdir -p /var/log/php-fpm
 RUN chown -R www-data:www-data /var/log/php-fpm
 RUN chmod -R 755 /var/log/php-fpm
 
-USER www-datacle
+USER www-data
 
 EXPOSE 9000
 
