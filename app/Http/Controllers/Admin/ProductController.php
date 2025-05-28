@@ -96,4 +96,20 @@ class ProductController extends Controller
             message: 'Product deleted',
         );
     }
+
+    /**
+     * Summary of export
+     * @return JsonResponse
+     */
+    public function export(): JsonResponse
+    {
+        $path = $this->service->exportToExcel();
+
+        return static::toResponse(
+            message: 'Экспорт товаров запущен',
+            data: [
+                'file' => $path
+            ]
+        );
+    }
 }

@@ -14,9 +14,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        // $middleware->alias([
-        //     'Excel' => Maatwebsite\Excel\Facades\Excel::class,
-        // ]);
+        $middleware->alias([
+            'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        ]);
         $middleware->group('api', [
             \App\Http\Middleware\ForceJsonResponse::class,
         ]);
