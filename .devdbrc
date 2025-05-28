@@ -1,0 +1,6 @@
+[
+  {
+    "type": "sqlite",
+    "path": "/home/islam/projects/sbi_laravel/database/testing.sqlite"
+  }
+]

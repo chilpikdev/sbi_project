@@ -37,7 +37,7 @@ class ProductTest extends TestCase
         $product = Product::create([
             'name' => 'Test Product',
             'price' => 100,
-            'barcode' => '1234567890123',
+            'barcode' => '1234567890124',
             'category_id' => $category->id,
         ]);
 
