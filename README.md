@@ -19,7 +19,7 @@ git clone https://github.com/chilpikdev/sbi_project.git
 cd sbi_project
 ```
 
-### 3. Копируем файл .env.example
+### 3. Создаём файл .env
 ```bash
 cp .env.example .env
 ```
@@ -45,12 +45,6 @@ composer install
 php artisan key:generate
 php artisan migrate --seed
 php artisan storage:link
-```
-
-### 8. Для запуска тестов
-```bash
-touch database/testing.sqlite
-php artisan test
 ```
 
 ## Дополнительная информация о контейнерах
@@ -90,17 +84,14 @@ docker exec -it sbi_php bash
 
 ```bash
 docker exec -it sbi_php bash
+touch database/testing.sqlite
 php artisan test
 ```
 
 ### Работа с миграциями
 
 ```bash
-# Создание новой миграции
-php artisan make:migration create_table_name
-
-# Откат миграций
-php artisan migrate:rollback
+php artisan migrate:fresh --seed
 ```
 
 ### Работа с очередями
