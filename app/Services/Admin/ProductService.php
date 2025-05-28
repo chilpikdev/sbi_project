@@ -45,11 +45,14 @@ class ProductService
     /**
      * Summary of find
      * @param int $id
-     * @return Product
+     * @return mixed
      */
-    public function find(int $id): Product
+    public function find(int $id): mixed
     {
-        return $this->repository->findById($id);
+        return $this->remember(
+            key: 'product',
+            callback: fn (): Product => $this->repository->findById($id)
+        );
     }
 
     /**

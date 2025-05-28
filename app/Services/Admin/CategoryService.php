@@ -45,11 +45,14 @@ class CategoryService
     /**
      * Summary of find
      * @param int $id
-     * @return Category
+     * @return mixed
      */
-    public function find(int $id): Category
+    public function find(int $id): mixed
     {
-        return $this->repository->findById($id);
+        return $this->remember(
+            key: 'category',
+            callback: fn (): Category => $this->repository->findById($id)
+        );
     }
 
     /**
