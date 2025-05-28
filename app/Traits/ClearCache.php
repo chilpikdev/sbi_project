@@ -9,11 +9,15 @@ trait ClearCache
 {
     /**
      * Clear Function
+     * @param array $keys
+     * @return void
      */
-    public function clear(string $keyPrefix): void
+    public function clear(array $keys): void
     {
-        foreach (Redis::keys("*{$keyPrefix}*") as $cacheValue) {
-            Cache::forget(substr($cacheValue, strripos($cacheValue, $keyPrefix)));
+        foreach ($keys as $key) {
+            foreach (Redis::keys("*{$key}*") as $cacheValue) {
+                Cache::forget(substr($cacheValue, strripos($cacheValue, $key)));
+            }
         }
     }
 }
